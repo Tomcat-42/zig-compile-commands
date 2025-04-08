@@ -5,6 +5,7 @@
     .minimum_zig_version = "0.15.0-dev.208+8acedfd5b",
     .dependencies = .{},
     .paths = .{
+        "compile_commands.zig",
         "build.zig",
         "build.zig.zon",
         "LICENSE",
