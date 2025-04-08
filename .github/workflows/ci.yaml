@@ -1,0 +1,49 @@
+name: Test, Package, and Release
+
+on:
+  push:
+    branches: [main]
+    tags: ['v*']
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Zig
+        uses: mlugg/setup-zig@v1
+        with:
+          version: "master"
+
+      - name: Build example
+        working-directory: ./example
+        run: zig build cc
+
+      - name: Verify compile_commands.json
+        working-directory: ./example
+        run: |
+          if [ ! -f "compile_commands.json" ]; then
+            echo "error: compile_commands.json not found!"
+            exit 1
+          fi
+
+          if [ ! -s "compile_commands.json" ]; then
+            echo "compile_commands.json is empty!"
+            exit 1
+          fi
+
+          if ! jq empty compile_commands.json 2>/dev/null; then
+            echo "error: compile_commands.json contains invalid JSON!"
+            exit 1
+          fi
+
+          echo "compile_commands.json validation passed"
+
