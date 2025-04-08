@@ -10,7 +10,7 @@ Note: I will only maintain support for zig master.
 Fetch the package:
 
 ```sh
-zig fetch --save compile_commands git+https://github.com/Tomcat-42/zig-compile-commands
+zig fetch --save=compile_commands git+https://github.com/Tomcat-42/zig-compile-commands
 ```
 
 Add the `-gen-cdb-fragment-path <DIR>` flag to your target. Here <DIR> could be any dir, 
